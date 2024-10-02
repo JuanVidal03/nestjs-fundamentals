@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { SongsService } from './songs.service';
+import { CreateSongDto } from './dto/create-song.dto';
 
 @Controller('songs')
 export class SongsController {
@@ -9,8 +10,9 @@ export class SongsController {
     ){}
 
     @Get()
-    findAll():string{
-        return "All songs";
+    findAll():any{
+        const songs = this.songService.findAll();
+        return songs;
     }
 
     @Get(":id")
@@ -19,8 +21,9 @@ export class SongsController {
     }
 
     @Post()
-    createSong(@Req() request: Request):string {
-        return "song created";
+    createSong(@Body() newSong:CreateSongDto):any {
+        const createdSong = this.songService.create(newSong);
+        return createdSong;
     }
 
     @Put(":id")
